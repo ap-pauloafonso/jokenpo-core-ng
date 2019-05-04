@@ -1,0 +1,7 @@
+<div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20px" style="height:calc(100% - 64px)">
+    <card-jogador #JogadorComp (acaoRealizada)="handleAcaoRealizada($event)" [cardJogadorModel]="jogador">
+    </card-jogador>
+    <placar [placarModel]="placar"></placar>
+    <card-jogador #ComputadorComp [cardJogadorModel]="computador"></card-jogador>
+</div>
+

@@ -1,0 +1,27 @@
+<div fxLayout="row" fxLayoutAlign="center center" style="height:calc(100% - 64px)">
+  <mat-card style="height:200px ;width: 300px" class="example-card">
+    <mat-card-header>
+      <mat-card-title>{{this.isLoginMode?'Entrar': 'Registrar'}}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+
+
+      <form [formGroup]="Form" style="width:100%">
+
+        <mat-form-field>
+          <input type="text" matInput placeholder="Usuario" formControlName="usuario">
+          <mat-error *ngIf="this.Form.get('usuario').hasError"></mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+          <input type="password" matInput placeholder="Senha" formControlName="senha">
+        </mat-form-field>
+      </form>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button (click)="handleEntrar()" color="primary">Entrar</button>
+      <button mat-raised-button (click)="handleLeftClick()"> Registrar</button>
+    </mat-card-actions>
+
+  </mat-card>
+</div>

@@ -1,0 +1,35 @@
+<mat-card class="example-card" style="width: 300px">
+  <mat-card-header>
+    <div mat-card-avatar fxLayoutAlign="center" style="font-size: 40px "
+      [ngClass]="this.cardJogadorModel.isBoot?'fas fa-laptop-code':'fas fa-user-circle'"></div>
+    <mat-card-title>{{this.cardJogadorModel.isBoot?'Computador':this.cardJogadorModel.user}}</mat-card-title>
+    <mat-card-subtitle [ngStyle]="{'visibility': this.cardJogadorModel.isBoot?'hidden':null}"> stest</mat-card-subtitle>
+  </mat-card-header>
+  <div [ngSwitch]="this.cardJogadorModel.state">
+    <i *ngSwitchCase="'escolhido'" style="font-size:100px" fxLayoutAlign="center" mat-card-image
+      class="fas fa-check"></i>
+    <i *ngSwitchCase="'pedra'" style="font-size:100px" fxLayoutAlign="center" mat-card-image
+      class="far fa-hand-rock"></i>
+    <i *ngSwitchCase="'papel'" style="font-size:100px" fxLayoutAlign="center" mat-card-image
+      class="far fa-hand-paper"></i>
+    <i *ngSwitchCase="'tesoura'" style="font-size:100px" fxLayoutAlign="center" mat-card-image
+      class="far fa-hand-scissors"></i>
+
+      <i *ngSwitchCase="'vazio'" style="font-size:100px; visibility: hidden" fxLayoutAlign="center" mat-card-image
+      class="fas fa-check"></i>
+    <mat-spinner style="margin: 0 100px;" *ngSwitchCase="'pensando'" fxLayoutAlign="center"></mat-spinner>
+  </div>
+  <mat-card-content
+    [ngStyle]="{'visibility': (this.cardJogadorModel.state=='papel'|| this.cardJogadorModel.state=='tesoura'|| this.cardJogadorModel.state=='pedra' )?'hidden':null}"
+    fxLayoutAlign="center">
+    {{this.cardJogadorModel.state=='pensando' || this.cardJogadorModel.state=='vazio'? 'Aguardando Jogada': this.cardJogadorModel.state==='escolhidos'? 'O Adversario já escolheu':this.cardJogadorModel.state}}
+  </mat-card-content>
+  <mat-card-actions>
+    <div [ngStyle]="{'visibility': this.cardJogadorModel.isBoot?'hidden':null}" fxLayoutAlign="center"
+      fxLayoutGap="15px">
+      <button (click)="handleAcao('tesoura')" mat-mini-fab class="far fa-hand-scissors" color="primary"></button>
+      <button (click)="handleAcao('papel')" mat-mini-fab class="far fa-hand-paper" color="primary"></button>
+      <button (click)="handleAcao('pedra')" mat-mini-fab class="far fa-hand-rock" color="primary"></button>
+    </div>
+  </mat-card-actions>
+</mat-card>
