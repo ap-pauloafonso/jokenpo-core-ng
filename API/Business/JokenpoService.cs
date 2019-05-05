@@ -10,7 +10,10 @@ namespace Business
     public class JokenpoService : IJokenpoService
     {
 
+
         private IUnitOfWork unitofwork;
+
+        private const int NUMERO_MAXIMO_ROUNDS = 10;
         public JokenpoService(IUnitOfWork unitofwork)
         {
             this.unitofwork = unitofwork;
@@ -37,12 +40,20 @@ namespace Business
 
         public JogadaResponseDto jogar(int partidaid, int round, string escolha)
         {
-            if (round > 10)
+            if (round > NUMERO_MAXIMO_ROUNDS)
             {
-                throw new Exception("Maximo de 10 rodas");
+                throw new JokenpoBusinessException("Não é possivel jogar mais que 10 rounds por partida");
             }
             PartidaDetalhe detalhe = PartidaDetalhe.PrepararDetalhe(partidaid, round, escolha);
             this.unitofwork.Partidas.SalvarDetalhe(detalhe);
+
+
+            if (round == NUMERO_MAXIMO_ROUNDS)
+            {
+                var partidasDetalherDoBanco = this.unitofwork.Partidas.GetPartidaComDetalhes(partidaid);
+                partidasDetalherDoBanco.TerminarPartida();
+
+            }
             this.unitofwork.commit();
             // this.unitofwork.Partidas.GetPartidaComDetalhes(partidaid).detalhes.Where(x)
             return new JogadaResponseDto()
@@ -58,9 +69,13 @@ namespace Business
 
         public LoginResponseDto CriarUsuario(CriarUsuarioDto usuario)
         {
-            if (this.unitofwork.Usuarios.ConsultarUsuarioPorEmail(usuario.email) != null || this.unitofwork.Usuarios.ConsultarUsuarioPorId(usuario.user) != null)
+            if (this.unitofwork.Usuarios.ConsultarUsuarioPorId(usuario.user) != null)
             {
-                throw new Exception("INVALIDO");
+                throw new JokenpoBusinessException("Já existe um usuario com esse nome");
+            }
+            if (this.unitofwork.Usuarios.ConsultarUsuarioPorEmail(usuario.email) != null)
+            {
+                throw new JokenpoBusinessException("Já existe um usuario com esse email");
             }
 
             this.unitofwork.Usuarios.Add(new Usuario()
@@ -81,7 +96,7 @@ namespace Business
             var usu = this.unitofwork.Usuarios.find(x => x.UsuarioId == user && x.senha == senha).FirstOrDefault();
             if (usu == null)
             {
-                throw new Exception("Login ou senha Invalidos");
+                throw new JokenpoBusinessException("Login ou senha Invalidos");
             }
             else
             {
@@ -101,6 +116,36 @@ namespace Business
                 escolhaJogador = x.EscolhaJogador
 
             }).ToList();
+        }
+
+        public IEnumerable<EstatisticasUsuario> ConsultaRanking(int limite)
+        {
+
+            return this.unitofwork.Usuarios.ConsultarUsuariosComPartidas()
+             .Select(s => new EstatisticasUsuario(
+             this.unitofwork.Usuarios.ConsultarUsuarioPorId(s.UsuarioId)?.UsuarioId,
+             s.partidas.Count(x => x.resultado == "win"),
+             s.partidas.Count(x => x.resultado == "loss"),
+             s.partidas.Count(x => x.resultado == "draw"),
+             s.partidas.Count()
+             ))
+             .OrderByDescending(x => x.porcentagemGanha)
+             .Take(limite)
+             .ToList();
+
+        }
+
+        public EstatisticasUsuario ConsultaEstatisticaUsuario(string user)
+        {
+            var usuario = this.unitofwork.Usuarios.ConsultarUsuariosComPartidas(user)
+            .FirstOrDefault();
+
+            return new EstatisticasUsuario(usuario.UsuarioId,
+             usuario.partidas.Count(x => x.resultado == "win"),
+             usuario.partidas.Count(x => x.resultado == "loss"),
+             usuario.partidas.Count(x => x.resultado == "draw"),
+             usuario.partidas.Count() 
+            );
         }
     }
 }

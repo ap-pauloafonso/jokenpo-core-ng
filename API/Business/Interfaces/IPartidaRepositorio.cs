@@ -7,7 +7,7 @@ namespace Business.Interfaces
         void SalvarDetalhe(PartidaDetalhe detlhe);
         Partida GetPartidaComDetalhes(int Partida);
 
-        PartidaWinLossDraw GetPartidaWinLossDraw(int Partida);
+        PartidaWinLossDraw GetPartidaWinLossDraw(int PartidaId);
 
 
 

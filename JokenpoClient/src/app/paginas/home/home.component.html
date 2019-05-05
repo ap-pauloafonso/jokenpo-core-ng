@@ -1,3 +1,88 @@
-<p>
-  home works!
-</p>
+<div fxLayout="row" fxLayoutAlign="center center" style="height:calc(100% - 64px)" fxLayoutGap="20px" >
+  <mat-card style="height:350px">
+    <mat-card-header>
+      <mat-card-title>Ranking</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+
+      <table mat-table [dataSource]="this.ranking" class="mat-elevation-z8" [width]="'400px'">
+
+        <!--- Note that these columns can be defined in any order.
+              The actual rendered columns are set as a property on the row definition" -->
+
+        <!-- Position Column -->
+
+        <ng-container matColumnDef="position">
+          <th mat-header-cell *matHeaderCellDef> # </th>
+          <td mat-cell *matCellDef="let element;  let i = index"> {{i+1}} </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="user">
+          <th mat-header-cell *matHeaderCellDef> Nome </th>
+          <td mat-cell *matCellDef="let element"> {{element.user}} </td>
+        </ng-container>
+
+        <!-- Weight Column -->
+        <ng-container matColumnDef="partidasGanhas">
+          <th mat-header-cell *matHeaderCellDef> Vitórias</th>
+          <td mat-cell *matCellDef="let element"> {{element.partidasGanhas}} </td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="partidasPerdidas">
+          <th mat-header-cell *matHeaderCellDef> Derrotas</th>
+          <td mat-cell *matCellDef="let element"> {{element.partidasPerdidas}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="partidasEmpatadas">
+          <th mat-header-cell *matHeaderCellDef> Empates </th>
+          <td mat-cell *matCellDef="let element"> {{element.partidasEmpatadas}} </td>
+        </ng-container>
+        <!-- <ng-container matColumnDef="totalPartidas">
+          <th mat-header-cell *matHeaderCellDef> t </th>
+          <td mat-cell *matCellDef="let element"> {{element.totalPartidas}} </td>
+        </ng-container> -->
+        <ng-container matColumnDef="porcentagemGanha">
+          <th mat-header-cell *matHeaderCellDef> % de vitória </th>
+          <td mat-cell *matCellDef="let element"> {{element.porcentagemGanha| number : '1.2-2'}} % </td>
+        </ng-container>
+
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </mat-card-content>
+  </mat-card>
+
+  <div>
+    <mat-card style="height: 350px">
+      <mat-card-header>
+        <mat-card-title>Estatistica de {{this.authService.estaLogado.user}}</mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content>
+
+        <div class="mat-body-2">Partidas</div>
+        <div class="mat-body-1">{{this.user?.totalPartidas}}</div>
+
+        <div class="mat-body-2">Vitórias</div>
+        <div class="mat-body-1">{{this.user?.partidasGanhas}}</div>
+
+        <div class="mat-body-2">Derrotas</div>
+        <div class="mat-body-1">{{this.user?.partidasPerdidas}}</div>
+
+        <div class="mat-body-2">Empate</div>
+        <div class="mat-body-1">{{this.user?.partidasEmpatadas}}</div>
+
+        <div class="mat-body-2">% de Vitórias</div>
+        <div class="mat-body-1">{{this.user?.porcentagemGanha | number : '1.2-2'}}%</div>
+
+      </mat-card-content>
+      <mat-card-actions>
+        <a mat-raised-button routerLink="/jogar" color="primary" style="width: 100%">Jogar</a>
+      </mat-card-actions>
+  
+    </mat-card>
+  </div>
+</div>

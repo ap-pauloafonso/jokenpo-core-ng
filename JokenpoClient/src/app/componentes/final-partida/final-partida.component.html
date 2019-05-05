@@ -1,59 +1,19 @@
-
-  <h1 mat-dialog-title fxLayoutAlign="center">
-    {{data.quantidadeGanha>data.quantidadeGanha? 'Você ganhou!': data.quantidadeGanha==data.quantidadePerdida?'Empate!':'Você Perdeu'}}
-  </h1>
-  <h1 mat-dialog-title fxLayoutAlign="center">
-    {{data.quantidadeGanha}} / {{data.quantidadePerdida}}
-  </h1>
+<h1 mat-dialog-title fxLayoutAlign="center">
+  Você{{data.quantidadeGanha==data.quantidadePerdida?' Empatou':data.quantidadeGanha>data.quantidadePerdida?' Ganhou':' Perdeu'}}
+</h1>
+<h1 mat-dialog-title fxLayoutAlign="center">
+  {{data.quantidadeGanha}} / {{data.quantidadePerdida}}
+</h1>
 
 <div mat-dialog-content>
   <div fxLayout="row">
-      <table mat-table style="width: 200px" [dataSource]="this.rightDatasource" class="mat-elevation-z8">
+    <table mat-table style="width: 200px" [dataSource]="this.rightDatasource" class="mat-elevation-z8">
 
-          <!--- Note that these columns can be defined in any order.
-                      The actual rendered columns are set as a property on the row definition" -->
-    
-          <!-- Position Column -->
-          <ng-container matColumnDef="round">
-            <th mat-header-cell *matHeaderCellDef> Round </th>
-            <td mat-cell *matCellDef="let element"> {{element.round}} </td>
-          </ng-container>
-          <!-- Name Column -->
-          <ng-container matColumnDef="escolhaJogador">
-              <th mat-header-cell *matHeaderCellDef> Você </th>
-              <td mat-cell *matCellDef="let element">
-                <i style="font-size:25px" [ngClass]="{'ganho':element.resultado==='win'}" fxLayoutAlign="center"
-                  [class]="this.getClassIcon(element.escolhaJogador, element.resultado, false)"></i>
-              </td>
-            </ng-container>
-      
-            <!-- Weight Column -->
-            <ng-container matColumnDef="escolhaComputador">
-              <th mat-header-cell *matHeaderCellDef> Computador </th>
-              <td mat-cell *matCellDef="let element">
-                <i style="font-size:25px" fxLayoutAlign="center" [ngClass]="{'perda':element.resultado==='loss'}"
-                  [class]="this.getClassIcon(element.escolhaComputador, element.resultado, true)"></i>
-              </td>
-            </ng-container>
-      
-    
-    
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    
-        </table>
-    <table mat-table style="width: 200px" [dataSource]="this.leftDatasource" class="mat-elevation-z8">
-
-      <!--- Note that these columns can be defined in any order.
-                The actual rendered columns are set as a property on the row definition" -->
-
-      <!-- Position Column -->
       <ng-container matColumnDef="round">
         <th mat-header-cell *matHeaderCellDef> Round </th>
         <td mat-cell *matCellDef="let element"> {{element.round}} </td>
       </ng-container>
 
-      <!-- Name Column -->
       <ng-container matColumnDef="escolhaJogador">
         <th mat-header-cell *matHeaderCellDef> Você </th>
         <td mat-cell *matCellDef="let element">
@@ -62,7 +22,34 @@
         </td>
       </ng-container>
 
-      <!-- Weight Column -->
+      <ng-container matColumnDef="escolhaComputador">
+        <th mat-header-cell *matHeaderCellDef> Computador </th>
+        <td mat-cell *matCellDef="let element">
+          <i style="font-size:25px" fxLayoutAlign="center" [ngClass]="{'perda':element.resultado==='loss'}"
+            [class]="this.getClassIcon(element.escolhaComputador, element.resultado, true)"></i>
+        </td>
+      </ng-container>
+
+
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    </table>
+    <table mat-table style="width: 200px" [dataSource]="this.leftDatasource" class="mat-elevation-z8">
+
+
+      <ng-container matColumnDef="round">
+        <th mat-header-cell *matHeaderCellDef> Round </th>
+        <td mat-cell *matCellDef="let element"> {{element.round}} </td>
+      </ng-container>
+      <ng-container matColumnDef="escolhaJogador">
+        <th mat-header-cell *matHeaderCellDef> Você </th>
+        <td mat-cell *matCellDef="let element">
+          <i style="font-size:25px" [ngClass]="{'ganho':element.resultado==='win'}" fxLayoutAlign="center"
+            [class]="this.getClassIcon(element.escolhaJogador, element.resultado, false)"></i>
+        </td>
+      </ng-container>
       <ng-container matColumnDef="escolhaComputador">
         <th mat-header-cell *matHeaderCellDef> Computador </th>
         <td mat-cell *matCellDef="let element">

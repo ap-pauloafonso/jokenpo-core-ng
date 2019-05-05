@@ -19,10 +19,16 @@ namespace Infra.Data.ConfiguracoesModelo
                 .HasMaxLength(25)
                 .HasColumnName("USERID");
 
+                builder.HasMany(x=>x.partidas)
+                .WithOne(a=>a.Usuario)
+                .HasForeignKey(a=>a.UsuarioId);
+
                 builder.Property(x => x.email)
                 .IsRequired()
                 .HasMaxLength(30)
                 .HasColumnName("EMAIL");
+
+
 
 
                 builder.Property(x => x.senha)

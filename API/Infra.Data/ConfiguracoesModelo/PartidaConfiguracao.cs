@@ -10,11 +10,14 @@ namespace Infra.Data.ConfiguracoesModelo
         public void Configure(EntityTypeBuilder<Partida> builder)
         {
 
-        
+
             builder.ToTable("PARTIDA");
             builder.HasKey(x => x.PartidaId);
-            builder.HasOne(x => x.Usuario);
             builder.HasMany(X => X.detalhes);
+
+            builder.HasOne(x => x.Usuario)
+            .WithMany(a => a.partidas)
+            .HasForeignKey(e => e.UsuarioId);
 
             builder.Property(x => x.PartidaId)
             .ValueGeneratedOnAdd()
@@ -32,6 +35,8 @@ namespace Infra.Data.ConfiguracoesModelo
             builder.Property(x => x.datahorafim)
             .HasColumnName("DATAHORAFIM");
 
+            builder.Property(x => x.resultado)
+            .HasColumnName("RESULTADO");
         }
     }
 }

@@ -23,6 +23,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { HomeComponent } from './paginas/home/home.component';
+import {MatMenuModule} from '@angular/material/menu';
 
 // import { CorpoCardComponent } from './shared/componentes/corpo-card/corpo-card.component';
 
@@ -55,7 +56,8 @@ import { HomeComponent } from './paginas/home/home.component';
     MatInputModule,
     ReactiveFormsModule,
     HttpClientModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatMenuModule
 
   ],
   providers: [],

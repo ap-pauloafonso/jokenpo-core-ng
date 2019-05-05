@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using Business.Interfaces;
 using Business.Modelos;
@@ -11,6 +12,14 @@ namespace Infra.Data
         public JokenpoContext JokenpoContext
         {
             get { return Context as JokenpoContext; }
+        }
+
+        public IEnumerable<Usuario> ConsultarUsuariosComPartidas(string user = null)
+        {
+            return this.JokenpoContext.Usuarios
+            .Where(x => (user == null) || (x.UsuarioId == user))
+            .Include(x => x.partidas);
+
         }
 
         public UsuarioRepositorio(JokenpoContext context) : base(context)

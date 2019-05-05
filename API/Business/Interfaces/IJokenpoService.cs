@@ -1,6 +1,7 @@
 using System;
 using Business.Dtos;
 using System.Collections.Generic;
+using Business.Modelos;
 
 namespace Business.Interfaces
 {
@@ -10,8 +11,10 @@ namespace Business.Interfaces
         JogadaResponseDto jogar(int partidaid, int round, string escolha);
         LoginResponseDto login(string user, string senha);
         LoginResponseDto CriarUsuario(CriarUsuarioDto usuario);
-
         IEnumerable<PartidaDetalheResponseDto> ConsultaPartida(int id);
+        IEnumerable<EstatisticasUsuario> ConsultaRanking(int limite);
+        EstatisticasUsuario ConsultaEstatisticaUsuario(string user);
+
     }
 
 }

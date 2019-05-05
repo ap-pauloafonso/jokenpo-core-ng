@@ -28,13 +28,11 @@ export class FinalPartidaComponent implements OnInit {
 
   getClassIcon(jogada: string, resultado: string, isBoot: boolean): string {
     let css = 'far ';
-    debugger;
     switch (jogada) {
       case 'tesoura': css += 'fa-hand-scissors '; break;
       case 'papel': css += 'fa-hand-paper '; break;
       case 'pedra': css += 'fa-hand-rock '; break;
     }
-    // css += !isBoot ? (resultado == 'win' ? 'ganho' : null) : null;
     return css;
   }
 

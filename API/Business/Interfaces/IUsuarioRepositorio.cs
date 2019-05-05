@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Business.Modelos;
 
 namespace Business.Interfaces
@@ -6,6 +7,6 @@ namespace Business.Interfaces
     {
         Usuario ConsultarUsuarioPorId(string nickName);
         Usuario ConsultarUsuarioPorEmail(string email);
-
+        IEnumerable<Usuario> ConsultarUsuariosComPartidas(string user = null);
     }
 }

@@ -3,7 +3,7 @@
     <div mat-card-avatar fxLayoutAlign="center" style="font-size: 40px "
       [ngClass]="this.cardJogadorModel.isBoot?'fas fa-laptop-code':'fas fa-user-circle'"></div>
     <mat-card-title>{{this.cardJogadorModel.isBoot?'Computador':this.cardJogadorModel.user}}</mat-card-title>
-    <mat-card-subtitle [ngStyle]="{'visibility': this.cardJogadorModel.isBoot?'hidden':null}"> stest</mat-card-subtitle>
+    <mat-card-subtitle [ngStyle]="{'visibility': this.cardJogadorModel.isBoot?'hidden':null}"> {{this.cardJogadorModel.email}}</mat-card-subtitle>
   </mat-card-header>
   <div [ngSwitch]="this.cardJogadorModel.state">
     <i *ngSwitchCase="'escolhido'" style="font-size:100px" fxLayoutAlign="center" mat-card-image

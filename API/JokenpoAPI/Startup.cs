@@ -36,6 +36,7 @@ namespace JokenpoAPI
                     builder => builder.AllowAnyOrigin()
                     .AllowAnyMethod()
                     .AllowAnyHeader()
+                    .AllowAnyOrigin()
                     .AllowCredentials()
                     );
             });

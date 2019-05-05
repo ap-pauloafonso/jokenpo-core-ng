@@ -6,5 +6,13 @@ namespace Business.Modelos
         public int lossCount { get; set; }
         public int drawCount { get; set; }
 
+        public string resultFinal
+        {
+            get
+            {
+                return winCount == lossCount ? "draw" : winCount > lossCount ? "win" : "loss";
+            }
+        }
+
     }
 }

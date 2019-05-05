@@ -1,5 +1,6 @@
 using System;
 using Business.Interfaces;
+using System.Linq;
 
 namespace Infra.Data
 {
@@ -20,6 +21,7 @@ namespace Infra.Data
         }
         public void commit()
         {
+           var test = this._context.ChangeTracker.Entries().Select(x=> new {x.Entity, x.State}).ToList();
             _context.SaveChanges();
         }
 

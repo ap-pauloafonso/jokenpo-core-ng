@@ -1,9 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { of, } from 'rxjs';
 import { JogadaResponseDto } from './modelos/JogadaResponseDTO';
 import { PartidaDetalheResponseDto } from './modelos/PartidaDetalheResponseDto'
 import { HttpClient } from '@angular/common/http';
+import { ErrorHandler } from './Helpers/ErrorHandler';
+import { catchError } from 'rxjs/operators';
+import { EstatisticaResponseDto } from './modelos/EstatisticaResponseDto';
+
+
 
 
 @Injectable({
@@ -15,19 +19,28 @@ export class JokenPoService {
     private http: HttpClient) { }
 
   comecarPartida(user: string, escolha: string): Observable<JogadaResponseDto> {
-    console.log(user, escolha)
-    return this.http.post<JogadaResponseDto>('http://localhost:5000/api/jogar/comecar', { user: user, escolha: escolha });
+    return this.http.post<JogadaResponseDto>('http://localhost:5000/api/jogar/comecar', { user: user, escolha: escolha })
+      .pipe(catchError(ErrorHandler.handle));
   }
   jogar(partida: number, round: number, escolha: string): Observable<JogadaResponseDto> {
-    console.log(partida, round, escolha)
+    return this.http.post<JogadaResponseDto>('http://localhost:5000/api/jogar/', { partida: partida, round: round, escolha: escolha })
+      .pipe(catchError(ErrorHandler.handle));
 
-    return this.http.post<JogadaResponseDto>('http://localhost:5000/api/jogar/', { partida: partida, round: round, escolha: escolha });
   }
 
   GetResultadoFinal(partida: number): Observable<PartidaDetalheResponseDto[]> {
+    return this.http.get<PartidaDetalheResponseDto[]>('http://localhost:5000/api/jogar/partida/' + partida)
+      .pipe(catchError(ErrorHandler.handle));
 
-    let array: PartidaDetalheResponseDto[];
+  }
 
-    return this.http.get<PartidaDetalheResponseDto[]>('http://localhost:5000/api/jogar/partida/' + partida);
+
+  getRanking():Observable<EstatisticaResponseDto[]>{
+    return this.http.get<EstatisticaResponseDto[]>('http://localhost:5000/api/estatisticas')
+    .pipe(catchError(ErrorHandler.handle));
+  }
+  getEstatisticaUsuario(user:string):Observable<EstatisticaResponseDto>{
+    return this.http.get<EstatisticaResponseDto>('http://localhost:5000/api/estatisticas/'+user)
+    .pipe(catchError(ErrorHandler.handle));
   }
 }

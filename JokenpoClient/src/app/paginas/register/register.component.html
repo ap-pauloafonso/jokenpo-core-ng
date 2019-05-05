@@ -25,7 +25,7 @@
       </div>
     </mat-card-content>
     <mat-card-actions>
-      <button mat-raised-button (click)="handleRegistrar()" color="primary">Registrar</button>
+      <button mat-raised-button [disabled]="!this.Form.valid" (click)="handleRegistrar()" color="primary">Registrar</button>
       <button mat-raised-button (click)="handleCancelar()"> Cancelar</button>
     </mat-card-actions>
 

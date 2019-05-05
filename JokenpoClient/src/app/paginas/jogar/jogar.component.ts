@@ -29,9 +29,9 @@ export class JogarComponent implements OnInit {
   @ViewChild('JogadorComp') JogadorComp: CardJogadorComponent;
 
 
-  jogador: CardJogadorModel = new CardJogadorModel(false, 'vazio', 'paulo');
+  jogador: CardJogadorModel = new CardJogadorModel(false, 'vazio', this._authService.estaLogado.user, this._authService.estaLogado.email);
 
-  computador: CardJogadorModel = new CardJogadorModel(true, 'escolhido');
+  computador: CardJogadorModel = new CardJogadorModel(true, 'escolhido', '', '');
 
   placar: PlacarModel = new PlacarModel();
 
@@ -39,11 +39,9 @@ export class JogarComponent implements OnInit {
 
   handleAcaoRealizada(event: string) {
     if (this.computador.state == 'escolhido') {
-      debugger;
       if (this.placar.roundAtual == 1) {
-        this._jokenPoService.comecarPartida(this._authService.usuarioLogado, event)
+        this._jokenPoService.comecarPartida(this._authService.estaLogado.user, event)
           .subscribe(x => {
-            debugger;
             this.placar.partida = x.partida;
             this.handleVisual(x.partidaWinDraw.winCount,
               x.partidaWinDraw.lossCount,
@@ -76,17 +74,14 @@ export class JogarComponent implements OnInit {
     this.JogadorComp.mostrarResposta(escolhaJogador);
 
     setTimeout(() => {
-
-      this.ComputadorComp.cardJogadorModel.state = 'pensando';
-      setTimeout(() => { this.ComputadorComp.cardJogadorModel.state = 'escolhido' }, 300);
-      this.JogadorComp.cardJogadorModel.state = 'vazio'
-
-
       if (this.placar.roundAtual == 10) {
         this.openDialog(this.placar);
       } else {
-        this.placar.roundAtual = ++this.placar.roundAtual;
+        this.ComputadorComp.cardJogadorModel.state = 'pensando';
+        setTimeout(() => { this.ComputadorComp.cardJogadorModel.state = 'escolhido' }, 300);
+        this.JogadorComp.cardJogadorModel.state = 'vazio'
 
+        this.placar.roundAtual = ++this.placar.roundAtual;
       }
     }, 2000);
   }
@@ -102,9 +97,9 @@ export class JogarComponent implements OnInit {
       if (result == 'cancel') {
         this.router.navigate(['/home']);
       } else {
-        this.jogador = new CardJogadorModel(false, 'vazio', 'paulo');
+        this.jogador = new CardJogadorModel(false, 'vazio', this._authService.estaLogado.user, this._authService.estaLogado.email);
 
-        this.computador = new CardJogadorModel(true, 'escolhido');
+        this.computador = new CardJogadorModel(true, 'escolhido', '', '');
 
         this.placar = new PlacarModel();
 

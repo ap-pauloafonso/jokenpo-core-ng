@@ -24,7 +24,15 @@ namespace JokenpoAPI.Controllers
         [HttpPost("Login")]
         public ActionResult<Object> PostLogin(LoginDto dto)
         {
-            return Ok(this.JokenpoService.login(dto.user, dto.senha));
+            try
+            {
+                return Ok(this.JokenpoService.login(dto.user, dto.senha));
+
+            }
+            catch (JokenpoBusinessException ex)
+            {
+                return BadRequest(new { mensagem = ex.Message });
+            }
         }
 
         [HttpPost]
@@ -36,8 +44,15 @@ namespace JokenpoAPI.Controllers
             }
             else
             {
-                this.JokenpoService.CriarUsuario(dto);
-                return Ok();
+                try
+                {
+                    return Ok(this.JokenpoService.CriarUsuario(dto));
+                }
+                catch (JokenpoBusinessException ex)
+                {
+                    return BadRequest(new { mensagem = ex.Message });
+                }
+
             }
         }
     }

@@ -15,31 +15,35 @@ export class LoginComponent implements OnInit {
   Form: FormGroup;
   constructor(
     private fb: FormBuilder,
-    private router: Router, 
+    private router: Router,
     private authService: AuthService,
     private snackBar: MatSnackBar) { }
 
   ngOnInit() {
 
+    if (this.authService.estaLogado) {
+      this.router.navigate(['/home'])
+    }
+
     this.Form = this.fb.group({
-      usuario: ['', [Validators.required, Validators.maxLength(10)]],
-      senha: ['', [Validators.required, Validators.maxLength(11)]]
+      usuario: ['', [Validators.required, Validators.maxLength(25)]],
+      senha: ['', [Validators.required, Validators.maxLength(50)]]
     });
 
 
+
+
   }
-  handleEntrar() { 
+  handleEntrar() {
     this.authService.Autenticar(this.Form.controls['usuario'].value, this.Form.controls['senha'].value).subscribe(x => {
-      debugger;
-      this.authService.usuarioLogado = x;
-      this.authService.setCookie();
       this.snackBar.open('Logado com Sucesso!', null, {
         duration: 2000,
-      },);
-    }, err=>{
-      this.snackBar.open('Erro ao se Autenticar', null, {
+      });
+      this.router.navigate(['/home']);
+    }, err => {
+      this.snackBar.open(err, null, {
         duration: 2000,
-      },);
+      });
     })
   }
 
