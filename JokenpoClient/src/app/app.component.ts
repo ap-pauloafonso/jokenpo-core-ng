@@ -16,8 +16,9 @@ export class AppComponent {
   title = 'JokenpoClient';
 
 
-  handleSair(){
+  handleSair() {
     this.authService.logout()
   }
+
 }
 

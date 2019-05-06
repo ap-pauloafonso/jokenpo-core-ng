@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Business.Interfaces;
 using Business.Modelos;
+using MassTransit;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,7 +16,7 @@ namespace JokenpoAPI.Controllers
     public class EstatisticasController : ControllerBase
     {
         private IJokenpoService JokenpoService;
-        public EstatisticasController(IJokenpoService jokenpoService)
+        public EstatisticasController(IJokenpoService jokenpoService, IEmailService emailService)
         {
             JokenpoService = jokenpoService;
         }

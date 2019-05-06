@@ -16,9 +16,11 @@ namespace JokenpoAPI.Controllers
     public class UsuarioController : ControllerBase
     {
         private IJokenpoService JokenpoService;
-        public UsuarioController(IJokenpoService jokenpoService)
+        private IEmailService emailService;
+        public UsuarioController(IJokenpoService jokenpoService, IEmailService emailService)
         {
             JokenpoService = jokenpoService;
+            this.emailService = emailService;
         }
 
         [HttpPost("Login")]
@@ -38,6 +40,7 @@ namespace JokenpoAPI.Controllers
         [HttpPost]
         public ActionResult<Object> Post([FromBody] CriarUsuarioDto dto)
         {
+            LoginResponseDto usuarioCriado = null;
             if (dto == null)
             {
                 return BadRequest();
@@ -46,12 +49,18 @@ namespace JokenpoAPI.Controllers
             {
                 try
                 {
-                    return Ok(this.JokenpoService.CriarUsuario(dto));
+                    usuarioCriado = this.JokenpoService.CriarUsuario(dto);
+                    this.emailService.MandarEmail(usuarioCriado.user, usuarioCriado.email);
                 }
                 catch (JokenpoBusinessException ex)
                 {
                     return BadRequest(new { mensagem = ex.Message });
                 }
+                catch (Exception ex)
+                {
+                    //TODO: log
+                }
+                return Ok(usuarioCriado);
 
             }
         }

@@ -2,28 +2,29 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Business;
-using Business.Interfaces;
-using Infra.Data;
+using EmailAPI.Consumidores;
+using EmailAPI.Service;
+using EmailAPI.Services;
+using GreenPipes;
 using Infra.EmailService;
-using JokenpoAPI.Consumidores;
-using JokenpoAPI.Services;
+using Infra.EmailService.Contratos;
 using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace JokenpoAPI
+namespace EmailAPI
 {
     public class Startup
     {
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -34,35 +35,14 @@ namespace JokenpoAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
-            services.AddCors(options =>
-            {
-                options.AddPolicy("CorsPolicy",
-                    builder => builder.AllowAnyOrigin()
-                    .AllowAnyMethod()
-                    .AllowAnyHeader()
-                    .AllowAnyOrigin()
-                    .AllowCredentials()
-                    );
-            });
-
-            services.AddCors(options => options.AddPolicy("AllowAll", p => p.AllowAnyOrigin()));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            services.AddDbContext<JokenpoContext>(options =>
-             options.UseSqlServer(Configuration["connectionstring"])
-             );
-            // services.AddTransient<IRepositorioBase, RepositorioBase>();
-            services.AddTransient<IJokenpoService, JokenpoService>();
-            services.AddTransient<IUsuarioRepositorio, UsuarioRepositorio>();
-            services.AddTransient<IPartidaRepositorio, PartidaRepositorio>();
+            services.AddHttpContextAccessor();
+            services.AddTransient<SMTPService>();
 
-            services.AddTransient<IUnitOfWork, UnitOfWork>();
-
-            services.AddTransient<IEmailService, EmailService>();
             services.AddMassTransit(x =>
             {
-                x.AddConsumer<EmailConfirmadoConsumer>();
+                x.AddConsumer<EmailCadastroConsumer>();
 
                 x.AddBus(provider => Bus.Factory.CreateUsingRabbitMq(cfg =>
                 {
@@ -72,20 +52,23 @@ namespace JokenpoAPI
                         hostConfigurator.Password("guest");
                     });
 
-                    cfg.ReceiveEndpoint(host, "JokenpoAPI", ep =>
+                    cfg.ReceiveEndpoint(host, "EmailAPI", ep =>
                     {
-                        ep.ConfigureConsumer<EmailConfirmadoConsumer>(provider);
+                        ep.ConfigureConsumer<EmailCadastroConsumer>(provider);
                     });
                 }));
             });
 
+
             services.AddSingleton<IHostedService, BusService>();
+
 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, Microsoft.AspNetCore.Hosting.IHostingEnvironment env)
         {
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -95,8 +78,8 @@ namespace JokenpoAPI
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            app.UseCors("CorsPolicy");
-            // app.UseHttpsRedirection();
+
+            app.UseHttpsRedirection();
             app.UseMvc();
         }
     }

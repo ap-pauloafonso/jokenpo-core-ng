@@ -1,1 +1,9 @@
+SQL-SERVER: 
 sudo docker run -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=SENHA_BANCO_123' -p 1433:1433 --name sql1 -d mcr.microsoft.com/mssql/server:2017-latest
+sudo docker exec -it sql1 "bash"
+/opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P 'SENHA_BANCO_123'
+CREATE DATABASE TestDB
+GO
+
+RAbbitMQ:
+sudo docker run -d --hostname my-rabbit --name some-rabbit -p 15672:15672 -p 5672:5672 rabbitmq:3-management

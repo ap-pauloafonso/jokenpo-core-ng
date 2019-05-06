@@ -15,7 +15,7 @@ namespace Business.Modelos
 
         public DateTime datahoracriacao { get; set; }
 
-        public DateTime datahoraconfirmacao { get; set; }
+        public DateTime? datahoraconfirmacao { get; set; }
         public IEnumerable<Partida> partidas { get; }
 
     }

@@ -11,6 +11,8 @@ namespace Business.Interfaces
         JogadaResponseDto jogar(int partidaid, int round, string escolha);
         LoginResponseDto login(string user, string senha);
         LoginResponseDto CriarUsuario(CriarUsuarioDto usuario);
+
+        void ConfirmarUsuario(string user, DateTime data);
         IEnumerable<PartidaDetalheResponseDto> ConsultaPartida(int id);
         IEnumerable<EstatisticasUsuario> ConsultaRanking(int limite);
         EstatisticasUsuario ConsultaEstatisticaUsuario(string user);

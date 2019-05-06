@@ -100,7 +100,7 @@ namespace Business
             }
             else
             {
-                return new LoginResponseDto() { user = user, email = usu.email };
+                return new LoginResponseDto() { user = user, email = usu.email, dataConfirmacao = usu.datahoraconfirmacao };
             }
         }
 
@@ -144,8 +144,18 @@ namespace Business
              usuario.partidas.Count(x => x.resultado == "win"),
              usuario.partidas.Count(x => x.resultado == "loss"),
              usuario.partidas.Count(x => x.resultado == "draw"),
-             usuario.partidas.Count() 
+             usuario.partidas.Count()
             );
+        }
+
+        public void ConfirmarUsuario(string user, DateTime data)
+        {
+            var usuario = this.unitofwork.Usuarios.ConsultarUsuarioPorId(user);
+            if (usuario != null && usuario.datahoraconfirmacao == null)
+            {
+                usuario.datahoraconfirmacao = data;
+                this.unitofwork.commit();
+            }
         }
     }
 }

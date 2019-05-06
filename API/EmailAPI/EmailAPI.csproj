@@ -13,8 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Business\Business.csproj" />
-    <ProjectReference Include="..\Infra.Data\Infra.Data.csproj" />
     <ProjectReference Include="..\Infra.EmailService\Infra.EmailService.csproj" />
   </ItemGroup>
 

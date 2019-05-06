@@ -1,10 +1,11 @@
-<mat-toolbar  *ngIf="authService.estaLogado" color="primary">
+<mat-toolbar *ngIf="authService.estaLogado" color="primary">
   <mat-toolbar-row>
-    <a routerLink="/home"  mat-button>Home</a>
+    <a routerLink="/home" mat-button>Home</a>
     <a routerLink="/jogar" mat-button>Jogar</a>
     <span class="example-fill-remaining-space"></span>
     <span class="align-center"></span>
-    <button *ngIf="authService.estaLogado" mat-button [matMenuTriggerFor]="menu">{{authService.estaLogado.user}}</button>
+    <button *ngIf="authService.estaLogado" mat-button
+      [matMenuTriggerFor]="menu">{{authService.estaLogado.user}}</button>
     <mat-menu #menu="matMenu">
       <button (click)="handleSair()" mat-menu-item>Sair</button>
     </mat-menu>
@@ -12,4 +13,7 @@
     </button>
   </mat-toolbar-row>
 </mat-toolbar>
+
+<mat-card *ngIf="this.authService.estaLogado &&this.authService.estaLogado.dataConfirmacao ==null">Atenção você precisa
+  confirmar o email</mat-card>
 <router-outlet></router-outlet>
