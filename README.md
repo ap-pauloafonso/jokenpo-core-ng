@@ -15,7 +15,7 @@ Para desenvolver eu utilizei 2 imagens docker, uma para o sql server e outra par
 
 ## Solução / Dependências
 * JokenpoAPI - tomar conta de todo a lógica envolvendo o jogo e a autenticação
-* EmailAPI - tomar conta da confirmação de emailobrigatória caso nescessite a confirmação de email)
-* Angular - interface gráfica parao usuario
+* EmailAPI - tomar conta da confirmação de email (obrigatória caso nescessite a confirmação de email)
+* Angular - interface gráfica para o usuario
 * rabbitmq - para comunicação entre a JokenpoAPI e o EmailAPI (obrigatória caso nescessite a confirmação de email)
 * SQLServer - banco para guardar as informações, os scripts estão no ```./scripts.sql```
