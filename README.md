@@ -4,18 +4,22 @@
 ![](./media/demo.gif)
 
 
-## Funcionalidades
-* Jogar contra o computador
-* Cadastro/Login
-* Verificação de Email
-* ranking 
+## Features
+* Play with the computer
+* Register/login
+* Email verification
+* Ranking 
 
 ## Docker
-Para desenvolver eu utilizei 2 imagens docker, uma para o sql server e outra para o rabbitmq as imagens utilizadas estão no arquivo ```./docker_env.txt```
+For development it was use 2 docker run commands, for the sql server and for the rabbitmq. These commands can be found on the file: ```./docker_env.txt```
 
-## Solução / Dependências
-* JokenpoAPI - tomar conta de todo a lógica envolvendo o jogo e a autenticação
-* EmailAPI - tomar conta da confirmação de email (obrigatória caso nescessite a confirmação de email)
-* Angular - interface gráfica para o usuario
-* rabbitmq - para comunicação entre a JokenpoAPI e o EmailAPI (obrigatória caso nescessite a confirmação de email)
-* SQLServer - banco para guardar as informações, os scripts estão no ```./scripts.sql```
+## Things to improve
+* Use docker-compose
+
+
+## Solution / Dependencies
+* JokenpoAPI - Game logic and authentication
+* EmailAPI -Email related stuff such as confirmation
+* Angular - User interface
+* rabbitmq - Comunication between JokenpoAPI and EmailAPI
+* SQLServer - Scripts can be found on the file ```./scripts.sql```
